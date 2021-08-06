@@ -1,13 +1,36 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 <head>
     <meta charset="utf-8" />
     <title>{% block title %}Xenon's projects{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static "css/base_styles.css" %}" />
 </head>
 <body>
-    <h1>{% block header %}Xenon's projects{% endblock header %}</h1>
-    <h3>{% block intro %}Сайт посвящён творчеству поэта, прозаика и психолога Xenon de Fer{% endblock intro %}</h3>
-    <div>{% block content%}{% endblock content %}</div>
-    <div>Footer</div>
+    <div id="header">
+        <a href="/">
+            <h1>{% block header %}Xenon's projects{% endblock header %}</h1>
+            <h3>{% block intro %}Сайт посвящён творчеству поэта, прозаика и психолога Xenon de Fer{% endblock intro %}</h3>
+        </a>
+    </div>
+    <div id="menu">
+        <ul class="work_nav">
+            <li><a href="#">Поэзия</a></li>
+            <li><a href="#">Рассказы</a></li>
+            <li><a href="#">Повести</a></li>
+            <li><a href="#">Романы</a></li>
+            <li><a href="articles.html">Статьи</a></li>
+        </ul>
+    </div>
+    <div id="wrapper">
+        <div id="widgets">
+            <ul class="site_nav">
+                <li><a href="about.html">Об авторе</a></li>
+                <li><a href="#">Донаты</a></li>
+            </ul>
+        </div>
+        <div id="main">{% block content%}{% endblock content %}</div>
+    </div>
+    <div id="footer">Футер</div>
 </body>
 </html>
