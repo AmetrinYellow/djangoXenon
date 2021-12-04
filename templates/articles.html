@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content%}
+    {% for article in data %}
+        <h1>{{ article.title }}</h1>
+        <img src="{{ article.image }}" height="100px"/>
+        {% autoescape off %}{{ article.text }}{% endautoescape %}
+    {% endfor %}
+{% endblock content %}
