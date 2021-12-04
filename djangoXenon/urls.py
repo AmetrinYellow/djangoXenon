@@ -6,8 +6,10 @@ from Xenon import views
 urlpatterns = [
     path('', views.index),
     path('add_article', views.add_article),
+    path('add_news', views.add_news),
     re_path(r'^articles/(?P<art_short_title>.+)', views.article),
     re_path(r'^articles', views.articles),
     re_path(r'^about', views.about),
     path('admin/', admin.site.urls),
+    re_path(r'^news/(?P<news_short_title>.+)', views.news),
 ]

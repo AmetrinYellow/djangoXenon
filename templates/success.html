@@ -1,2 +1,2 @@
 {% extends "base.html" %}
-{% block content%}<h1>Статья {{ art_title }} создана. Посмотреть ее можно <a href="{{ art_link }}">здесь</a></h1>{% endblock content %}
+{% block content%}<h1>{% if type == "news" %} Новость {% elif type == "article" %} Статья {% endif %} {{ title }} создана. Посмотреть ее можно <a href="{{ link }}">здесь</a></h1>{% endblock content %}

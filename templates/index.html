@@ -1,2 +1,8 @@
 {% extends "base.html" %}
-{% block content%}<h1>Главная страница. Здесь будут новости!</h1>{% endblock content %}
+{% block content%}<h1>Главная страница</h1>
+    {% for news in data %}
+        <h1><a href="{{ news.link }}">{{ news.title }}</a></h1>
+        <img src="{{ news.image }}" height="100px"/>
+        {% autoescape off %}{{ news.text }}{% endautoescape %}
+    {% endfor %}
+{% endblock content %}
