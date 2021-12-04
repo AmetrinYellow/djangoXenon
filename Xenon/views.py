@@ -41,7 +41,7 @@ def add_article(request):
         filename = fs.save(f"static/images/articles/{image.name}", image)
         img_url = fs.url(filename)
         add_art = Article.objects.create(title=title, short_title=short_title, image=img_url, text=text)
-        return render(request, "success.html", context={"type": "article", "title": title, "link": f"/articles/{short_title}"})
+        return render(request, "success.html", context={"type": "article",  "action": "add", "title": title, "link": f"/articles/{short_title}"})
     add_art_form = AddArticleForm()
     return render(request, "add_article.html", {"form": add_art_form})
 
@@ -56,7 +56,7 @@ def add_news(request):
         filename = fs.save(f"static/images/news/{image.name}", image)
         img_url = fs.url(filename)
         add_news = News.objects.create(title=title, short_title=short_title, image=img_url, text=text)
-        return render(request, "success.html", context={"type": "news", "title": title, "link": f"/news/{short_title}"})
+        return render(request, "success.html", context={"type": "news", "action": "add", "title": title, "link": f"/news/{short_title}"})
     add_news_form = AddNewsForm()
     return render(request, "add_news.html", {"form": add_news_form})
 
@@ -86,11 +86,45 @@ def article(request, art_short_title):
     return render(request, "article.html", context=data)
 
 
+def edit_article(request, art_short_title):
+    art = Article.objects.get(short_title=art_short_title)
+    if request.method == "POST":
+        form = AddArticleForm(request.POST, instance=art)
+        art.title = request.POST.get("title")
+        art.text = request.POST.get("text")
+        if request.FILES:
+            image = request.FILES['image']
+            fs = FileSystemStorage()
+            filename = fs.save(f"static/images/articles/{image.name}", image)
+            art.image = fs.url(filename)
+        art.save()
+        return render(request, "success.html", context={"type": "article", "action": "change", "title": art.title[:10] + "...", "link": f"/articles/{art.short_title}"})
+    else:
+        return render(request, "edit_article.html", context={"form": AddArticleForm(instance=art)})
+
+
+def edit_news(request, news_short_title):
+    news = News.objects.get(short_title=news_short_title)
+    if request.method == "POST":
+        form = AddNewsForm(request.POST, instance=news)
+        news.title = request.POST.get("title")
+        news.text = request.POST.get("text")
+        if request.FILES:
+            image = request.FILES['image']
+            fs = FileSystemStorage()
+            filename = fs.save(f"static/images/articles/{image.name}", image)
+            news.image = fs.url(filename)
+        news.save()
+        return render(request, "success.html", context={"type": "news", "action": "change", "title": news.title[:10] + "...", "link": f"/news/{news.short_title}"})
+    else:
+        return render(request, "edit_article.html", context={"form": AddNewsForm(instance=news)})
+
+
 def news(request, news_short_title):
-    art = Article.objects.get(short_title=news_short_title)
+    one_news = News.objects.get(short_title=news_short_title)
     data = {
-        "title": art.title,
-        "image": art.image,
-        "text": art.text
+        "title": one_news.title,
+        "image": one_news.image,
+        "text": one_news.text
     }
     return render(request, "news.html", context=data)
